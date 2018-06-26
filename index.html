@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" id="name" placeholder="Produto">
+    <input type="text" id="cod" placeholder="Quantidade">
+    <input type="number" id="key" placeholder="Código">
+    <button id="add">Novo</button>
+    <button id="del">Deletar</button>
+    <button id="update">Atualizar Lista</button>
+    <div id="text"></div>
+    <script>
+        if (window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB) { console.log('Seu navegador suporta o recurso IndexedDB');} else {
+            console.log("Seu navegador não suporta o recurso IndexedDB");
+        }
+    </script>
+    <script src="index.js"></script>
+</body>
+</html>
