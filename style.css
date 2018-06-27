@@ -10,6 +10,7 @@ p { margin: 0;padding: 15px 0;color: #D4C96A;text-align: center;padding-top: 15p
 #cod { margin: 10px 0;}
 form { max-width: 500px;margin: auto;}
 form input { padding: 5px;border: 1px solid silver;}
+#prod, #quant {width: 25%;}
 #add, #del { background-color: white;border: 2px solid silver;padding: 5px;outline: none;}
 #add:active, #del:active {background-color: rgb(237, 237, 237);}
 #text {background-color: #554B00;width: 100%;margin-top: 50px;}
