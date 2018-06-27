@@ -1,23 +1,29 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <title>IndexedDB</title>
 </head>
 <body>
-    <input type="text" id="name" placeholder="Produto">
-    <input type="text" id="cod" placeholder="Quantidade">
-    <input type="number" id="key" placeholder="Código">
-    <button id="add">Novo</button>
-    <button id="del">Deletar</button>
-    <button id="update">Atualizar Lista</button>
-    <div id="text"></div>
+    <div class="top"><p>IndexedDB</p></div>
+    <div class="container">
+        <form>
+            <input type="text" id="prod" placeholder="Produto">
+            <input type="text" id="quant" placeholder="Quantidade">
+            <button id="add">Adicionar</button>
+            <input type="number" id="cod" placeholder="Código">
+            <button id="del">Deletar</button>
+        </form>
+        <div id="text"><div class="clear"><p>Nenhum produto no carinho!</p></div></div>
+    </div>
+    <div class="div_teste">
+        <p>Utilize os campos de Produto e Quantidade para colocar no carinho e caso queira remover algum item basta colocar a chave do produto e deleta-lá. Boas compras!!!</p>
+    </div>
     <script>
-        if (window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB) { console.log('Seu navegador suporta o recurso IndexedDB');} else {
-            console.log("Seu navegador não suporta o recurso IndexedDB");
-        }
+        if (window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB) { console.log('Seu navegador suporta o recurso IndexedDB');} else { console.log("Seu navegador não suporta o recurso IndexedDB");}
     </script>
     <script src="index.js"></script>
 </body>

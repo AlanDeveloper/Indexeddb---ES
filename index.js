@@ -1,86 +1,81 @@
 const divText = document.querySelector('#text');
-let input = document.querySelector('#name');
+const divC = document.querySelector('.clear');
+let quant = document.querySelector('#quant');
+let prod = document.querySelector('#prod');
 let cod = document.querySelector('#cod');
 let add = document.querySelector('#add');
 let del = document.querySelector('#del');
-let key = document.querySelector('#key');
-let update = document.querySelector('#update');
-var suc = true;
+let database = null;
+let suc = true, cont = 0;
 
 // Crie um pedido para abrir um banco de dados
-let request = window.indexedDB.open("MyDataBase", 1), db;
-// Para ter acesso a um banco de dados, chame open()
+let request = window.indexedDB.open("MyDataBase", 1);
 
-request.onerror = function(event) {
-        console.log("Erro ao abrir o banco de dados", event);
-}
+request.onerror = function(event) { console.log("Erro ao abrir o banco de dados", event);};
 
-request.onupgradeneeded   = function(event) {
+request.onupgradeneeded  = function(event) {
     console.log("Atualizando...");
-    db = event.target.result;
-    var objectStore = db.createObjectStore("Estudantes", { keyPath : "PK" });
+    database = event.target.result;
+    var objectStore = database.createObjectStore("Estudantes", { keyPath : "id" });
     // var index = store.createIndex("NameIndex", ["name.last", "name.first"]);
 };
 
 request.onsuccess  = function(event) {
     // Adicionando dados ao seu banco de dados
-    db = event.target.result;
+    database = event.target.result;
     console.log("Banco de dados aberto com sucesso.");
-}
+};
 
-add.addEventListener('click', function () {
-    var transaction = db.transaction("Estudantes","readwrite");
-    transaction.oncomplete = function(event) {
-            // console.log("Sucesso");
-            suc = true;
-    };
+add.addEventListener('click', function (e) {
+    e.preventDefault();
+    // Para executar qualquer ação no armazenamento de objetos precisamos criar uma transação
+    var transaction = database.transaction("Estudantes","readwrite");
 
-    transaction.onerror = function(event) {
-            // console.log("Error");
-            suc = false;
-    };
-    if (suc) {
-        var objectStore = transaction.objectStore("Estudantes");
-        var a = cod.value;  
-        var b = input.value;
-        var c = Math.floor(Math.random() * 400) + 1;
-        objectStore.add({Codigo: a, nome : b, PK: c});
+    // transaction.oncomplete = function(event) { suc = true;};
+    // transaction.onerror = function(event) { suc = false;};
+    if (prod.value != '' && quant.value != '') {
+        objectStore = transaction.objectStore("Estudantes");
+        var random = Math.floor(Math.random() * 400) + 1;
+        objectStore.add({produto: prod.value, quantidade: quant.value, id: random});
         var p = document.createElement('p');
-        p.innerHTML = 'Produto: ' + b + ' Quantidade: ' + a + ' Sua chave: ' + c;
+        p.innerHTML = 'Produto: ' + prod.value + ' Quantidade: ' + quant.value + ' Sua chave: ' + random;
         var div = document.createElement('div');
-        div.classList.add('c_' + c);
+        div.classList.add('c_' + random);
         div.appendChild(p);
+        divC.style.display = 'none';
         divText.appendChild(div);
-        input.value = '';
-        cod.value = '';
-    }
+        prod.value = '';
+        quant.value = '';
+    } else { console.log('Preencha os campos')};
 });
 
 // Removendo dados
-del.addEventListener('click', function () {
-    var a = document.querySelector('.c_' + Number(key.value));
-    divText.removeChild(a);
-    db.transaction("Estudantes","readwrite").objectStore("Estudantes").delete(Number(key.value));
-    key.value = '';
-    console.log('Deletado');
+del.addEventListener('click', function (e) {
+    e.preventDefault();
+    if (document.querySelector('.c_' + cod.value) != null) {
+        divText.removeChild(document.querySelector('.c_' + cod.value));
+        database.transaction("Estudantes","readwrite").objectStore("Estudantes").delete(Number(cod.value));
+        cod.value = '';
+        console.log('Deletado');
+    } else { console.log('Código não encontrado');}
+    if (divText.childNodes.length === 1) { divC.style.display = 'block';}
 });
-// Acessando um objeto pela sua chave
-// Para acessar um objeto pelo sua chave use a função get()
-
-// var request = db.transaction(["Estudantes"],"readwrite").objectStore("Estudantes").get(Codigo);
-// request.onsuccess = function(event){
-//       console.log("Nome : " + request.result.nome);    
-// };
 
 // Atualizando dados
-update.addEventListener('click', function () {
-    var objectStore = db.transaction("Estudantes","readwrite").objectStore("Estudantes");
-    var req = objectStore.get('334');
-    console.log(req.result);
-    var div = document.createElement('div');
-    var p = document.createElement('p');
-    p.innerHTML = 'Nome:' + req.result[0].nome + ' Quantidade:' + req.result[0].codigo + ' Sua chave:' + req.result[0].PK;
-    div.classList.add('c_' + req.result[0].pk);
-    div.appendChild(p);
-    divText.appendChild(div);
-});
+setTimeout(() => {
+    var objectStore = database.transaction("Estudantes","readwrite").objectStore("Estudantes");
+    var req = objectStore.getAll();
+    req.onsuccess = function () {
+        while (cont < req.result.length) {
+            divC.style.display = 'none';
+            var div = document.createElement('div');
+            var p = document.createElement('p');
+            p.innerHTML = 'Produto:' + req.result[cont].produto + ' Quantidade:' + req.result[cont].quantidade + ' Sua chave:' + req.result[cont].id;
+            div.classList.add('c_' + req.result[cont].id);
+            div.appendChild(p);
+            divText.appendChild(div);
+            cont++;
+        };
+        cont = 0;
+    };
+}, 500);

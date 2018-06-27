@@ -1,0 +1,24 @@
+body { margin: 0;padding: 0;background-color: #D4C96A;}
+.top {
+    width: 100%;
+    height: 50px;
+    background-color: #807415;
+    margin-bottom: 10px;
+}
+p { margin: 0;padding: 15px 0;color: #D4C96A;text-align: center;padding-top: 15px;}
+.container { max-width: 1000px;margin: auto;}
+#cod { margin: 10px 0;}
+form { max-width: 500px;margin: auto;}
+form input { padding: 5px;border: 1px solid silver;}
+#add, #del { background-color: white;border: 2px solid silver;padding: 5px;outline: none;}
+#add:active, #del:active {background-color: rgb(237, 237, 237);}
+#text {background-color: #554B00;width: 100%;margin-top: 50px;}
+.div_teste{ 
+    max-width: 300px; 
+    height: 150px;
+    margin: auto;
+    padding: 15px;
+    margin-top: 30px;
+    border: 2px solid rgb(162, 152, 20);
+    background-color: rgb(172, 152, 0);
+}
